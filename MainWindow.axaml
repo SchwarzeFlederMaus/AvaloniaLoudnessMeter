@@ -2,16 +2,32 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:LoudnessMeter"
         mc:Ignorable="d" d:DesignWidth="1048" d:DesignHeight="630"
         Width="1048" Height="630"
         x:Class="LoudnessMeter.MainWindow"
         Title="Loudness Meter">
 
+    <Window.Styles>
+        <Style Selector="Button.small">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{DynamicResource BrigthBlueBrush}"/>
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="Padding" Value="7, 2"/>
+
+            <Style Selector="^:pointerover /template/ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource BrigthHoverBlueBrush}"/>
+                <Setter Property="TextBlock.Foreground" Value="White"/>
+            </Style>
+        </Style>
+    </Window.Styles>
+
     <Grid RowDefinitions="Auto, *, Auto">
         <!--Title bar-->
         <Grid Grid.Row="0" 
               ColumnDefinitions="Auto, Auto, *, Auto, Auto" 
-              Background="#e5e5e5" 
+              Background="{DynamicResource MediumGrayBrush}" 
               Height="60">
 
             <Grid.Styles>
@@ -60,7 +76,7 @@
         <!--Main area-->
         <Grid Grid.Row="1" 
               ColumnDefinitions="Auto, Auto, *" 
-              Background="#1a1c20">
+              Background="{DynamicResource DarkBlueBrush}">
 
             <!--Volume bar-->
             <Grid Grid.Column="0" 
@@ -100,7 +116,7 @@
                           Grid.RowSpan="11" 
                           RowDefinitions="23*,37*">
                         <Rectangle Grid.Row="0" 
-                                   Fill="Red" 
+                                   Fill="{DynamicResource FadedRedBrush}" 
                                    Margin="0,8,0,-8" 
                                    Width="20"/>
                         <Rectangle Grid.Row="1" 
@@ -143,24 +159,8 @@
                             Orientation="Horizontal"
                             HorizontalAlignment="Center">
 
-                     <StackPanel.Styles>
-                        <Style Selector="Button">
-                            <Setter Property="FontSize" Value="12"/>
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="Background" Value="#7f98c7"/>
-                            <Setter Property="CornerRadius" Value="20"/>
-                            <Setter Property="Padding" Value="7, 2"/>
-
-                            <Style Selector="^:pointerover /template/ContentPresenter">
-                                <Setter Property="Background" Value="#98acd0"/>
-                                <Setter Property="TextBlock.Foreground" Value="White"/>
-                            </Style>
-                        </Style>
-
-                        
-                    </StackPanel.Styles>
-
-                    <Button Margin="0,0,20,0"
+                    <Button Classes="small" 
+                            Margin="0,0,20,0"
                             Padding="3"
                             CornerRadius="30"
                             Width="30"
@@ -168,12 +168,54 @@
                         <Image Source="/Assets/Images/DoubleArrow.png"
                                Margin="5,0,2,0"/>
                     </Button>
-                    <Button>INT-LRA</Button>
+                    <Button Classes="small" >INT-LRA</Button>
                 </StackPanel>
             </Grid>
 
             <!--Details panel-->
-            <Rectangle Grid.Column="1" Fill="LightGray" Width="140"/>
+            <StackPanel Grid.Column="1"
+                        Width="170"
+                        Margin="0,15,10,15">
+                <controls:LargeLabelControl LargeText="-21.1 LUFS" 
+                                            SmallText="SHORT TERM"/>
+                <controls:LargeLabelControl LargeText="-20.7 LUFS" 
+                                            SmallText="INTEGRATED"
+                                            Background="{DynamicResource LightBlueBrush}"/>
+                <controls:LargeLabelControl LargeText="9.5 LU" 
+                                            SmallText="LOUDNESS RANGE"/>
+                <controls:LargeLabelControl LargeText="11.5 LU" 
+                                            SmallText="REALTIME DYNAMICS"/>
+                <controls:LargeLabelControl LargeText="20.5 LU" 
+                                            SmallText="AVG DYNAMIC (PLR)"
+                                            Margin="0,0,0,15"/>
+
+                <controls:LargeLabelControl LargeText="-9.8 LUFS" 
+                                            SmallText="MOMENTARY MAX"
+                                            Classes="button"/>
+                <controls:LargeLabelControl LargeText="-15.1 LUFS" 
+                                            SmallText="SHORT TERM MAX"
+                                            Classes="button"/>
+                <controls:LargeLabelControl LargeText="0.7dB " 
+                                            SmallText="TRUE PEEK MAX"
+                                            Margin="0,0,0,10"
+                                            Classes="button"/>
+
+                <StackPanel Grid.Row="2" 
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+
+                    <Button Classes="small" 
+                            Margin="0,0,20,0">
+                        AUTO
+                    </Button>
+                    <Button Classes="small"
+                            FontSize="20"
+                            FontFamily="Arial"
+                            Background="{DynamicResource FadedRedBrush}">
+                        X
+                    </Button>
+                </StackPanel>
+            </StackPanel>
 
             <!--Graph-->
             <Rectangle Grid.Column="2" Fill="DarkBlue"/>
